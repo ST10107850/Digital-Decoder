@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
-import { useGetBlogByIdQuery } from "../blogSlice/BlogApiSlice";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useGetBlogByIdQuery, useDeleteBlogMutation } from "../blogSlice/BlogApiSlice";
 
-const BlogDetails = ({isMyBlog =true}) => {
+const BlogDetails = () => {
   const { id } = useParams(); // Get blog ID from URL
+  const navigate = useNavigate();
   const { data: blog, isLoading, isError, error } = useGetBlogByIdQuery(id); // Fetch blog details
+  const [deleteBlog] = useDeleteBlogMutation(); // Hook for delete mutation
 
   if (blog && Array.isArray(blog)) {
     blog.forEach((blog) => {
@@ -32,6 +34,20 @@ const BlogDetails = ({isMyBlog =true}) => {
     return <div className="text-center text-xl">No blog found</div>;
   }
 
+  // Handle delete confirmation
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this blog?");
+    if (confirmed) {
+      try {
+        await deleteBlog(blog._id).unwrap();
+        alert("Blog deleted successfully!");
+        navigate("/blogs"); // Redirect to blog list after deletion
+      } catch (err) {
+        alert(err?.message || "Failed to delete blog");
+      }
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-[250px] py-8">
       {/* Main Content Section */}
@@ -49,18 +65,18 @@ const BlogDetails = ({isMyBlog =true}) => {
 
         {/* Edit & Delete Links */}
         <div className={`flex gap-6 mt-6`}>
-          <a
-            href="#"
+          <Link
+            to={`/${blog._id}`}
             className="text-white bg-blue-500 hover:bg-blue-700 font-medium px-6 py-3 rounded-md transition duration-200"
           >
             Edit
-          </a>
-          <a
-            href="#"
+          </Link>
+          <button
+            onClick={handleDelete}
             className="bg-red-600 hover:bg-red-700 font-medium text-white py-3 px-6 rounded-md transition duration-200"
           >
             Delete
-          </a>
+          </button>
         </div>
       </div>
 
@@ -74,7 +90,7 @@ const BlogDetails = ({isMyBlog =true}) => {
           <div className="w-32 h-32 bg-gray-200 rounded-full overflow-hidden mb-4">
             <img
               className="w-full h-full object-contain" // Ensure the whole image fits
-              src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
+              src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9zY3Jpc2V3L3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
               alt="Author"
             />
           </div>

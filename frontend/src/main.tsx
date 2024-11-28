@@ -19,6 +19,7 @@ import PrivateRouter from "./Components/PrivateRouter.tsx";
 import ProfilePage from "./Pages/profilePage.tsx";
 import MyBlogsPage from "./Pages/MyBlogsPage.tsx";
 import AddBlogPage from "./Pages/AddBlogPage.tsx";
+import EditBlog from "./Pages/EditBlog.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/my-blogs" element={<MyBlogsPage/>}/>
         <Route path="/create" element={<AddBlogPage/>}/>
+        <Route path="/:id" element={<EditBlog/>}/>
       </Route>
     </Route>
   )

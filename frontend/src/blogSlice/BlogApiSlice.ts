@@ -36,7 +36,27 @@ export const BlogApiSlice = createApi({
         body: data,
       }),
     }),
+    updateBlog: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `${BLOG_URL}/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    deleteBlog: builder.mutation({
+      query: (id) => ({
+        url: `${BLOG_URL}/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllBlogsQuery, useGetUserBlogsQuery, useGetBlogByIdQuery, useCreateBlogMutation } = BlogApiSlice;
+export const { 
+  useGetAllBlogsQuery, 
+  useGetUserBlogsQuery, 
+  useGetBlogByIdQuery, 
+  useCreateBlogMutation, 
+  useUpdateBlogMutation, 
+  useDeleteBlogMutation 
+} = BlogApiSlice;
