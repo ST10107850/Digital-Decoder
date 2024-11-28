@@ -22,8 +22,9 @@ export interface RootState {
 
 export type Blog = {
   _id: string;
+  subcategory: string;
   images: string;
   title: string;
-  description: string;
+  desciption: string;
 };
 

@@ -57,3 +57,20 @@ export const updateCategory = expressAsyncHandler(async (req, res) => {
     throw new Error("Category not found");
   }
 });
+
+export const getCategories = expressAsyncHandler(async (req, res) => {
+  try {
+    const categories = await Category.find(); // Fetching all categories from the database
+    if (categories.length === 0) {
+      res.status(404);
+      throw new Error("No categories found");
+    }
+    res.status(200).json({
+      message: "Categories fetched successfully",
+      data: categories, // Sending the list of categories back
+    });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Error fetching categories");
+  }
+});

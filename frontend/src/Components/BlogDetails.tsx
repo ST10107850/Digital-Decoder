@@ -1,62 +1,100 @@
-const BlogDetails = () => {
-          return (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-[150px] py-4">
-              {/* Main Content Section */}
-              <div className="col-span-2 p-6 rounded-lg shadow-md bg-white">
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">Blog Title</h1>
-                <p className="text-gray-600">
-                  This is a detailed description of the blog. It provides insights, information, and context about the blog topic.
-                </p>
-        
-                {/* Edit & Delete Links */}
-                <div className="flex gap-4 mt-6">
-                  <a
-                    href="#"
-                    className="text-white bg-blue-500 hover:bg-blue-800 font-medium px-4 py-2 rounded-md"
-                  >
-                    Edit
-                  </a>
-                  <a
-                    href="#"
-                    className="bg-red-600 hover:bg-red-800 font-medium text-white py-2 px-4 rounded-md"
-                  >
-                    Delete
-                  </a>
-                </div>
-              </div>
-        
-              {/* Author Section */}
-              <div className="border border-gray-300 p-6 rounded-lg shadow-md bg-white">
-                <h2 className="text-2xl text-center font-bold text-gray-800 mb-4">
-                  Author Details
-                </h2>
-                <div className="flex flex-col items-center">
-                  {/* Author Image */}
-                  <div className="w-24 h-24 bg-blue-600 rounded-full overflow-hidden mb-4">
-                    <img
-                      className="w-full h-full object-cover"
-                      src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
-                      alt="Author"
-                    />
-                  </div>
-        
-                  {/* Author Info */}
-                  <div className="text-lg text-center">
-                    <p className="text-gray-700 font-medium mb-2">
-                      <strong>Full Name:</strong> Shoki Mabitsela
-                    </p>
-                    <p className="text-gray-700 font-medium mb-2">
-                      <strong>Email:</strong> shoki@gmail.com
-                    </p>
-                    <p className="text-gray-700 font-medium">
-                      <strong>Phone:</strong> 123-456-7890
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        };
-        
-        export default BlogDetails;
-        
+import { useParams } from "react-router-dom";
+import { useGetBlogByIdQuery } from "../blogSlice/BlogApiSlice";
+
+const BlogDetails = ({isMyBlog =true}) => {
+  const { id } = useParams(); // Get blog ID from URL
+  const { data: blog, isLoading, isError, error } = useGetBlogByIdQuery(id); // Fetch blog details
+
+  if (blog && Array.isArray(blog)) {
+    blog.forEach((blog) => {
+      console.log(blog); // Logs the description of each blog
+    });
+  } else {
+    console.log("No blogs available or data is not an array");
+  }
+
+  // Handle loading state
+  if (isLoading) {
+    return <div className="text-center text-xl">Loading...</div>;
+  }
+
+  // Handle error state
+  if (isError) {
+    return (
+      <div className="text-center text-xl text-red-500">
+        Error: {error?.data?.message || "Failed to fetch blog details"}
+      </div>
+    );
+  }
+
+  // Check if blog exists
+  if (!blog) {
+    return <div className="text-center text-xl">No blog found</div>;
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-[250px] py-8">
+      {/* Main Content Section */}
+      <div className="col-span-2 p-6 rounded-lg shadow-lg bg-white flex flex-col justify-center">
+        <div className="w-full md:w-96 h-auto rounded-lg overflow-hidden shadow-lg mb-6">
+          <img
+            className="w-full h-auto object-cover rounded-lg"
+            src={blog.images}
+            alt="Blog"
+          />
+        </div>
+
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">{blog.title}</h1>
+        <p className="text-gray-600 mb-6">{blog.desciption}</p>
+
+        {/* Edit & Delete Links */}
+        <div className={`flex gap-6 mt-6`}>
+          <a
+            href="#"
+            className="text-white bg-blue-500 hover:bg-blue-700 font-medium px-6 py-3 rounded-md transition duration-200"
+          >
+            Edit
+          </a>
+          <a
+            href="#"
+            className="bg-red-600 hover:bg-red-700 font-medium text-white py-3 px-6 rounded-md transition duration-200"
+          >
+            Delete
+          </a>
+        </div>
+      </div>
+
+      {/* Author Section */}
+      <div className="border border-gray-300 p-6 rounded-lg shadow-lg bg-white">
+        <h2 className="text-2xl text-center font-semibold text-gray-800 mb-6">
+          Author Details
+        </h2>
+        <div className="flex flex-col items-center">
+          {/* Author Image */}
+          <div className="w-32 h-32 bg-gray-200 rounded-full overflow-hidden mb-4">
+            <img
+              className="w-full h-full object-contain" // Ensure the whole image fits
+              src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
+              alt="Author"
+            />
+          </div>
+
+          {/* Author Info */}
+          <div className="text-lg text-center">
+            <p className="text-gray-700 font-semibold mb-2">
+              <strong>Full Name:</strong> {blog.user.firstName}
+            </p>
+            <p className="text-gray-700 font-semibold mb-2">
+              <strong>Email:</strong> {blog.user.email}
+            </p>
+            <p className="text-gray-700 font-semibold">
+              <strong>Phone:</strong> {blog.user.phoneNumber}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BlogDetails;

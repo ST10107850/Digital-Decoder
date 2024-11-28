@@ -31,7 +31,7 @@ const Blogs = () => {
             <CardComponents
               images={item.images}
               title={item.title}
-              description={item.description}
+              description={item.desciption}
             />
           </Link>
         ))}

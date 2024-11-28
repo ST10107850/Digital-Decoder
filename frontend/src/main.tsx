@@ -18,6 +18,7 @@ import { store } from "./store.ts";
 import PrivateRouter from "./Components/PrivateRouter.tsx";
 import ProfilePage from "./Pages/profilePage.tsx";
 import MyBlogsPage from "./Pages/MyBlogsPage.tsx";
+import AddBlogPage from "./Pages/AddBlogPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,9 +28,10 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterPage />} />
       <Route  element={<PrivateRouter />}>
         <Route path="/blogs" element={<BlogPage />} />
-        <Route path="/blogdetails" element={<BlogsDetailPage />} />
+        <Route path="/blog/:id" element={<BlogsDetailPage />} />
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/my-blogs" element={<MyBlogsPage/>}/>
+        <Route path="/create" element={<AddBlogPage/>}/>
       </Route>
     </Route>
   )

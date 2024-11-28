@@ -4,9 +4,8 @@ import { Blog } from "../Types/userTypes";
 const BLOG_URL = "/api/blogs";
 
 const blogBaseQuery = fetchBaseQuery({
-  baseUrl: " ",
+  baseUrl: " ", 
   prepareHeaders: (headers, { getState }) => {
-    // Add Authorization header with token
     const token = (getState() as any).auth.userInfo?.token;
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
@@ -24,9 +23,20 @@ export const BlogApiSlice = createApi({
       query: () => BLOG_URL,
     }),
     getUserBlogs: builder.query<Blog[], void>({
-      query: () => `${BLOG_URL}/user`, // Route to fetch user-specific blogs
+      query: () => `${BLOG_URL}/user`, 
+    }),
+    getBlogById: builder.query({
+      query: (id) => `${BLOG_URL}/${id}`,
+    }),
+
+    createBlog: builder.mutation({
+      query: (data) => ({
+        url: BLOG_URL,
+        method: "POST",
+        body: data,
+      }),
     }),
   }),
 });
 
-export const { useGetAllBlogsQuery, useGetUserBlogsQuery } = BlogApiSlice;
+export const { useGetAllBlogsQuery, useGetUserBlogsQuery, useGetBlogByIdQuery, useCreateBlogMutation } = BlogApiSlice;

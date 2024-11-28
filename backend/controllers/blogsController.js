@@ -3,35 +3,39 @@ import expressAsyncHandler from "express-async-handler";
 
 export const createBlog = expressAsyncHandler(async (req, res) => {
   const { subcategory, images, title, desciption } = req.body;
-  // const id = req.User._id;
-
-  console.log("User in createBlog:", req.User); 
 
   if (!subcategory || !images || !title || !desciption) {
     res.status(400);
-    throw new Error("All fields are required (subcategory, images, title, desciption).");
+    throw new Error(
+      "All fields are required (subcategory, images, title, description)."
+    );
   }
 
+  // Create a new blog
   const newBlog = await Blogs.create({
-    user: req.User._id,
+    user: req.User._id, // Assuming req.User is set by middleware
     subcategory,
     images,
     title,
-    desciption
+    desciption,
+  });
+
+  // Populate the user information (author details)
+  const populatedBlog = await Blogs.findById(newBlog._id).populate({
+    path: "user",
+    select: "firstName lastName email phoneNumber", // Fields to include
   });
 
   res.status(201).json({
     message: "Blog created successfully",
-    data: newBlog,
+    data: populatedBlog,
   });
 });
-
 
 export const updateBlog = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   const { subcategory, images, title } = req.body;
 
-  
   const blog = await Blogs.findById(id);
 
   if (!blog) {
@@ -39,13 +43,11 @@ export const updateBlog = expressAsyncHandler(async (req, res) => {
     throw new Error("Blog not found.");
   }
 
- 
   if (blog.user.toString() !== req.User._id.toString()) {
     res.status(403);
     throw new Error("You are not authorized to update this blog.");
   }
 
- 
   blog.subcategory = subcategory || blog.subcategory;
   blog.images = images || blog.images;
   blog.title = title || blog.title;
@@ -75,16 +77,15 @@ export const deleteBlog = expressAsyncHandler(async (req, res) => {
   });
 });
 
-export const getAllBlogs = expressAsyncHandler(async(req,res)=>{
+export const getAllBlogs = expressAsyncHandler(async (req, res) => {
   try {
     const getAlllBlog = await Blogs.find({});
     res.status(201).json(getAlllBlog);
   } catch (error) {
     res.status(400);
-    throw new Error("Error trying to retrive blogs")
+    throw new Error("Error trying to retrive blogs");
   }
-})
-        
+});
 
 export const getUserBlog = expressAsyncHandler(async (req, res) => {
   // console.log(String(req.User._id));
@@ -97,3 +98,16 @@ export const getUserBlog = expressAsyncHandler(async (req, res) => {
     throw new Error("No product found for this user");
   }
 });
+export const getUserBlogDetails = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  // Use Mongoose's findById method, which is asynchronous and returns a promise
+  const blog = await Blogs.findById(id);
+
+  if (blog) {
+    res.json(blog); // Return the blog data if found
+  } else {
+    res.status(404).json({ message: "Blog not found" }); // Return a 404 if no blog is found
+  }
+});
+

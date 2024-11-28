@@ -15,6 +15,8 @@ const NavBar = () => {
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
+  console.log("userInfo in NavBar:", userInfo);
+
   const [isDropdown, setIsDropdown] = useState(false);
 
   const toggleDropdown = () => setIsDropdown((prev) => !prev);
@@ -84,7 +86,11 @@ const NavBar = () => {
                     className="flex items-center space-x-2 bg-transparent hover:text-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-300"
                   >
                     <CgProfile className="w-6 h-6" />
-                    <span>{userInfo.firstName} {userInfo.lastName}</span>
+                    <span>
+                      {userInfo.firstName && userInfo.lastName
+                        ? `${userInfo.firstName} ${userInfo.lastName}`
+                        : userInfo.email}
+                    </span>
                   </button>
 
                   {/* Dropdown Menu */}

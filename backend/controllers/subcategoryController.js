@@ -74,3 +74,21 @@ export const updateSubcategory = expressAsyncHandler(async (req, res) => {
     throw new Error("Subcategory not found");
   }
 });
+
+export const getSubcategories = expressAsyncHandler(async (req, res) => {
+  // Fetch all subcategories from the database
+  const subcategories = await Subcategory.find().populate("category", "categoryName"); // Populate category details for each subcategory
+
+  // If there are no subcategories, return a 404 error
+  if (!subcategories || subcategories.length === 0) {
+    res.status(404);
+    throw new Error("No subcategories found");
+  }
+
+  // Return the list of subcategories
+  res.status(200).json({
+    message: "Subcategories fetched successfully",
+    data: subcategories,
+  });
+});
+
