@@ -7,14 +7,6 @@ const BlogDetails = () => {
   const { data: blog, isLoading, isError, error } = useGetBlogByIdQuery(id); // Fetch blog details
   const [deleteBlog] = useDeleteBlogMutation(); // Hook for delete mutation
 
-  if (blog && Array.isArray(blog)) {
-    blog.forEach((blog) => {
-      console.log(blog); // Logs the description of each blog
-    });
-  } else {
-    console.log("No blogs available or data is not an array");
-  }
-
   // Handle loading state
   if (isLoading) {
     return <div className="text-center text-xl">Loading...</div>;
@@ -81,7 +73,7 @@ const BlogDetails = () => {
       </div>
 
       {/* Author Section */}
-      <div className="border border-gray-300 p-6 rounded-lg shadow-lg bg-white">
+      <div className="border border-gray-300 p-6 rounded-lg shadow-lg bg-white h-1/2">
         <h2 className="text-2xl text-center font-semibold text-gray-800 mb-6">
           Author Details
         </h2>
@@ -90,7 +82,7 @@ const BlogDetails = () => {
           <div className="w-32 h-32 bg-gray-200 rounded-full overflow-hidden mb-4">
             <img
               className="w-full h-full object-contain" // Ensure the whole image fits
-              src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9zY3Jpc2V3L3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
+              src={blog.user.image || "https://via.placeholder.com/150"} // Fallback to placeholder image if no image is provided
               alt="Author"
             />
           </div>
@@ -98,7 +90,7 @@ const BlogDetails = () => {
           {/* Author Info */}
           <div className="text-lg text-center">
             <p className="text-gray-700 font-semibold mb-2">
-              <strong>Full Name:</strong> {blog.user.firstName}
+              <strong>Full Name:</strong> {blog.user.firstName} {blog.user.lastName}
             </p>
             <p className="text-gray-700 font-semibold mb-2">
               <strong>Email:</strong> {blog.user.email}

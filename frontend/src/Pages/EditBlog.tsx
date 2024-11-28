@@ -92,8 +92,8 @@ const EditBlog = () => {
     };
   
     try {
-      const response = await updateBlog({ id, ...blogData }).unwrap();
-      console.log("Update Response:", response); // Log the response to check if it's updated
+      const response = await updateBlog({ id, blogData }).unwrap();
+      console.log("Update Response:", response); 
       alert("Blog updated successfully!");
       navigate(`/blog/${id}`);
     } catch (err) {

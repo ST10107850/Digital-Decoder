@@ -78,7 +78,22 @@ const AddBlogPage = () => {
     e.preventDefault();
   
     try {
-      const res = await createBlog({ images, subcategory, title, desciption }).unwrap();
+      // Include user details along with the blog data
+      const blogData = {
+        images,
+        category,
+        subcategory,
+        title,
+        desciption,
+        user: { // Including user details
+          firstName: userInfo?.firstName,
+          lastName: userInfo?.lastName,
+          email: userInfo?.email,
+          phoneNumber: userInfo?.phoneNumber,
+        },
+      };
+
+      const res = await createBlog(blogData).unwrap(); // Pass the new data structure
       console.log("Response:", res);
       
       if (res.data) {

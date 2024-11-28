@@ -26,7 +26,16 @@ export const authUser = expressAsyncHandler(async (req, res) => {
 });
 
 export const createUser = expressAsyncHandler(async (req, res) => {
-  const { firstName, lastName, image, phoneNumber,status,role, email, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    image,
+    phoneNumber,
+    status,
+    role,
+    email,
+    password,
+  } = req.body;
 
   if (!email || !password) {
     res.status(400);
@@ -119,7 +128,7 @@ export const getUserProfile = expressAsyncHandler(async (req, res) => {
     phoneNumber: req.User.phoneNumber,
     email: req.User.email,
   };
-  res.status(200).json({message: "Profile User", data: user})
+  res.status(200).json({ message: "Profile User", data: user });
 });
 
 export const deleteProfile = expressAsyncHandler(async (req, res) => {
@@ -135,5 +144,22 @@ export const deleteProfile = expressAsyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("User not found");
+  }
+});
+
+export const getAllUsers = expressAsyncHandler(async (req, res) => {
+  try {
+    const users = await User.find();
+    if (users.length === 0) {
+      res.status(404);
+      throw new Error("No user found");
+    }
+
+    res
+      .status(200)
+      .json({ message: "Users fetched successfully", data: users });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Error fetching categories");
   }
 });

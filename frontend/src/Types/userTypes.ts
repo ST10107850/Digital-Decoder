@@ -5,6 +5,7 @@ export type UserInfo = {
   lastName: string;
   image: string;
   phoneNumber: number;
+  createdAt: Date;
   email: string;
   status: string;
 };
@@ -26,5 +27,6 @@ export type Blog = {
   images: string;
   title: string;
   desciption: string;
+  createdAt: Date;
 };
 

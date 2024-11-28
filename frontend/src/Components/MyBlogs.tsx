@@ -28,13 +28,13 @@ const MyBlogs = () => {
     return <div>Error: {error?.data?.message || "Failed to fetch user blogs"}</div>;
   }
 
-  if (!blogs || blogs.length === 0) {
-    return <div>No blogs found for this user.</div>;
-  }
+  // if (!blogs || blogs.length === 0) {
+  //   return <div>No blogs found for this user.</div>;
+  // }
 
   return (
     <div className="mt-5 px-[150px]">
-    {/* Header Section */}
+    
     <div className="w-full bg-orange-100 flex justify-between py-4 px-4 shadow-md">
       <h1 className="text-2xl font-bold text-gray-800 uppercase">Blogs</h1>
       <Link to="/create" className="text-2xl font-bold text-gray-800 uppercase">Create New Blog</Link>
