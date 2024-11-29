@@ -78,14 +78,14 @@ const AddBlogPage = () => {
     e.preventDefault();
   
     try {
-      // Include user details along with the blog data
+      
       const blogData = {
         images,
         category,
         subcategory,
         title,
         desciption,
-        user: { // Including user details
+        user: { 
           firstName: userInfo?.firstName,
           lastName: userInfo?.lastName,
           email: userInfo?.email,
@@ -93,11 +93,11 @@ const AddBlogPage = () => {
         },
       };
 
-      const res = await createBlog(blogData).unwrap(); // Pass the new data structure
+      const res = await createBlog(blogData).unwrap(); 
       console.log("Response:", res);
       
       if (res.data) {
-        dispatch(setCredentials({...res.data})); // Adjust according to the response structure
+        dispatch(setCredentials({...res.data})); 
       } else {
         throw new Error("Unexpected response format");
       }

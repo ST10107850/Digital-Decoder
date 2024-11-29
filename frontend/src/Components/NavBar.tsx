@@ -15,7 +15,7 @@ const NavBar = () => {
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  console.log("userInfo in NavBar:", userInfo);
+  // console.log("userInfo in NavBar:", userInfo);
 
   const [isDropdown, setIsDropdown] = useState(false);
 

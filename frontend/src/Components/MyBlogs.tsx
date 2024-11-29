@@ -28,10 +28,6 @@ const MyBlogs = () => {
     return <div>Error: {error?.data?.message || "Failed to fetch user blogs"}</div>;
   }
 
-  // if (!blogs || blogs.length === 0) {
-  //   return <div>No blogs found for this user.</div>;
-  // }
-
   return (
     <div className="mt-5 px-[150px]">
     

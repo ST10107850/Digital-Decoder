@@ -51,15 +51,15 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 flex justify-center items-center">
-      <div className="bg-gray-900 p-8 rounded-xl shadow-lg w-full max-w-sm">
-        <h1 className="text-white text-3xl font-semibold text-center mb-6">
+    <div className="min-h-screen bg-[#b0764d] flex justify-center items-center">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-[50vw] h-[80vh]">
+        <h1 className="text-[#b0764d] text-3xl font-semibold text-center mb-3">
           Register
         </h1>
 
         <form onSubmit={submitHandler}>
           <div className="mb-4">
-            <label htmlFor="role" className="text-gray-400">
+            <label htmlFor="role" className="text-white">
               Role
             </label>
             <input
@@ -68,12 +68,12 @@ const RegisterPage = () => {
               placeholder="Enter your role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full p-3 mt-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full p-3 mt-2 rounded-lg bg-[#b0764d] text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="text-gray-400">
+            <label htmlFor="email" className="text-white">
               Email
             </label>
             <input
@@ -82,56 +82,61 @@ const RegisterPage = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 mt-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full p-3 mt-2 rounded-lg bg-[#b0764d] text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
 
-          <div className="mb-4 relative">
-            <label htmlFor="password" className="text-gray-400">
+          {/* Password Field */}
+          <div className="mb-4">
+            <label htmlFor="password" className="text-white block mb-2">
               Password
             </label>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 mt-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-            <div
-              onClick={togglePasswordVisibility}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-400"
-            >
-              {showPassword ? (
-                <EyeOffIcon className="w-6 h-6" />
-              ) : (
-                <EyeIcon className="w-6 h-6" />
-              )}
+            <div className="flex items-center bg-[#b0764d] rounded-lg">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="flex-1 p-3 bg-transparent text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400 rounded-l-lg"
+              />
+              <div
+                onClick={togglePasswordVisibility}
+                className="p-3 cursor-pointer text-white"
+              >
+                {showPassword ? (
+                  <EyeOffIcon className="w-6 h-6" />
+                ) : (
+                  <EyeIcon className="w-6 h-6" />
+                )}
+              </div>
             </div>
           </div>
 
           {/* Confirm Password Field */}
-          <div className="mb-4 relative">
-            <label htmlFor="conPassword" className="text-gray-400">
+          <div className="mb-4">
+            <label htmlFor="conPassword" className="text-white block mb-2">
               Confirm Password
             </label>
-            <input
-              type={showConPassword ? "text" : "password"}
-              id="conPassword"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full p-3 mt-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
-            />
-            <div
-              onClick={toggleConPasswordVisibility}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-400"
-            >
-              {showConPassword ? (
-                <EyeOffIcon className="w-6 h-6" />
-              ) : (
-                <EyeIcon className="w-6 h-6" />
-              )}
+            <div className="flex items-center bg-[#b0764d] rounded-lg">
+              <input
+                type={showConPassword ? "text" : "password"}
+                id="conPassword"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="flex-1 p-3 bg-transparent text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400 rounded-l-lg"
+              />
+              <div
+                onClick={toggleConPasswordVisibility}
+                className="p-3 cursor-pointer text-white"
+              >
+                {showConPassword ? (
+                  <EyeOffIcon className="w-6 h-6" />
+                ) : (
+                  <EyeIcon className="w-6 h-6" />
+                )}
+              </div>
             </div>
           </div>
 
@@ -141,7 +146,7 @@ const RegisterPage = () => {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-400">
+          <p className="text-[#b0764d]">
             Already have an account?
             <a href="/login" className="text-orange-500 hover:text-orange-400">
               {" "}

@@ -6,6 +6,7 @@ export type UserInfo = {
   image: string;
   phoneNumber: number;
   createdAt: Date;
+  role: string;
   email: string;
   status: string;
 };

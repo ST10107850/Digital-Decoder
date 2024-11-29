@@ -5,8 +5,8 @@ const Specialisation = () => {
   return (
     <div className="mt-5 px-[150px]">
       {/* Header Section */}
-      <div className="w-full bg-orange-100 flex justify-center py-4 shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800 uppercase">Specialisation</h1>
+      <div className="w-full bg-[#b0764d] flex justify-center py-4 shadow-md">
+        <h1 className="text-2xl font-bold text-white uppercase">Development Topics</h1>
       </div>
 
       {/* Card Section */}
