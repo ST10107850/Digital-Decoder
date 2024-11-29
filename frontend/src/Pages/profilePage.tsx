@@ -60,9 +60,7 @@ const ProfilePage = () => {
 
   const submitHandler = async(e: React.FormEvent)=>{
     e.preventDefault();
-    // if(password !== conPass){
-    //   alert("Password do not match");
-    // }else{
+  
       if(userInfo){
         try {
           const updateUsers = await updateUser({
@@ -88,7 +86,6 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gray-800 flex justify-center items-center py-12">
       <div className="bg-gray-900 w-full max-w-lg p-8 rounded-xl shadow-lg">
-        {/* Profile Header */}
         <div className="flex justify-center mb-8">
           <div className="relative">
             <img
@@ -112,7 +109,6 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Personal Information Form */}
         <div className="space-y-4">
           <div>
             <label htmlFor="name" className="text-gray-400">Full Name</label>
@@ -166,11 +162,8 @@ const ProfilePage = () => {
          
         
         </div>
-
-        {/* Buttons */}
         <div className="flex justify-between mt-6 items-center">
           <div className="flex items-center space-x-2">
-            {/* Remove Account with Trash Icon */}
             <button
             onClick={removeAccountHandler}
             className="py-3 px-4 text-red-600 rounded-lg hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center"

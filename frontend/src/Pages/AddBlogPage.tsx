@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useCreateBlogMutation } from "../blogSlice/BlogApiSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Types/userTypes";
-import { setCredentials } from "../userSlice/authSlice";
 
 const AddBlogPage = () => {
   const [images, setImages] = useState<string>("");
@@ -12,10 +11,13 @@ const AddBlogPage = () => {
   const [category, setCategory] = useState<string>("");
   const [desciption, setDesciption] = useState<string>("");
 
-  const [categories, setCategories] = useState([]); // To hold categories
-  const [subcategories, setSubcategories] = useState([]); // To hold subcategories
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]); 
   const [createBlog] = useCreateBlogMutation();
 
+  const location = useLocation();
+
+  console.log(location);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   const navigate = useNavigate();
@@ -27,7 +29,6 @@ const AddBlogPage = () => {
     }
   }, [navigate, userInfo]);
 
-  // Fetch categories and subcategories on mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -36,7 +37,7 @@ const AddBlogPage = () => {
           throw new Error("Failed to fetch categories");
         }
         const data = await response.json();
-        setCategories(data.data); // Assuming 'data' contains categories
+        setCategories(data.data); 
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -49,7 +50,7 @@ const AddBlogPage = () => {
           throw new Error("Failed to fetch subcategories");
         }
         const data = await response.json();
-        setSubcategories(data.data); // Assuming 'data' contains subcategories
+        setSubcategories(data.data); 
       } catch (error) {
         console.error("Error fetching subcategories:", error);
       }
@@ -93,19 +94,6 @@ const AddBlogPage = () => {
 
       const res = await createBlog(blogData).unwrap();
       console.log("Response:", res);
-
-      // Only update user-related fields if necessary
-      if (res.data) {
-        dispatch(
-          setCredentials({
-            ...userInfo,
-            ...res.data, 
-          })
-        );
-      } else {
-        throw new Error("Unexpected response format");
-      }
-
       alert("New blog created");
       navigate("/my-blogs");
     } catch (err) {
@@ -167,7 +155,7 @@ const AddBlogPage = () => {
           >
             <option value="">Select Subcategory</option>
             {subcategories
-              .filter((sub) => sub.category._id === category) // Filter subcategories based on selected category
+              .filter((sub) => sub.category._id === category) 
               .map((sub) => (
                 <option key={sub._id} value={sub._id}>
                   {sub.subcategoryName}

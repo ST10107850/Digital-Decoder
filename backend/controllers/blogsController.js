@@ -81,18 +81,18 @@ export const deleteBlog = expressAsyncHandler(async (req, res) => {
 
 export const getAllBlogs = expressAsyncHandler(async (req, res) => {
   try {
-    // Fetch all blogs and populate the related user, category, and subcategory fields
+   
     const blogs = await Blogs.find({})
       .populate({
         path: "user", 
-        select: "firstName lastName email phoneNumber image", // Only select relevant user fields
+        select: "firstName lastName email phoneNumber image", 
       })
       .populate({
-        path: "category",  // Make sure this matches the field name in the Blog model
+        path: "category",  
         select: "categoryName",
       })
       .populate({
-        path: "subcategory", // Same here - ensure it matches your schema
+        path: "subcategory", 
         select: "subcategoryName",
       });
 
@@ -100,7 +100,7 @@ export const getAllBlogs = expressAsyncHandler(async (req, res) => {
       return res.status(404).json({ message: "No blogs found." });
     }
 
-    // Send back the retrieved blogs
+  
     res.status(200).json(blogs);
   } catch (error) {
     console.error("Error retrieving blogs:", error);
@@ -109,16 +109,18 @@ export const getAllBlogs = expressAsyncHandler(async (req, res) => {
 });
 
 export const getUserBlog = expressAsyncHandler(async (req, res) => {
-  // console.log(String(req.User._id));
+  console.log("Authenticated User:", req.User);  // Debugging line
+  
   const blogs = await Blogs.find({ user: req.User._id });
 
   if (blogs) {
     res.status(200).json(blogs);
   } else {
     res.status(404);
-    throw new Error("No product found for this user");
+    throw new Error("No blogs found for this user");
   }
 });
+
 export const getBlogById = expressAsyncHandler(async (req, res) => {
   try {
     const blog = await Blogs.findById(req.params.id)

@@ -21,8 +21,6 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Fixed the mutation hook usage
   const [registerUser] = useRegisterUserMutation();
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -86,7 +84,6 @@ const RegisterPage = () => {
             />
           </div>
 
-          {/* Password Field */}
           <div className="mb-4">
             <label htmlFor="password" className="text-white block mb-2">
               Password
@@ -113,7 +110,6 @@ const RegisterPage = () => {
             </div>
           </div>
 
-          {/* Confirm Password Field */}
           <div className="mb-4">
             <label htmlFor="conPassword" className="text-white block mb-2">
               Confirm Password

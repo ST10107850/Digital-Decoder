@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetBlogByIdQuery,
   useUpdateBlogMutation,
-} from "../blogSlice/BlogApiSlice"; // Assuming these hooks exist
+} from "../blogSlice/BlogApiSlice";
 
 const EditBlog = () => {
-  const { id } = useParams(); // Get the blog ID from the URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   // States for managing the form data
@@ -15,10 +15,10 @@ const EditBlog = () => {
   const [desciption, setDesciption] = useState("");
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
-  const [categories, setCategories] = useState([]); // For storing categories
-  const [subcategories, setSubcategories] = useState([]); // For storing subcategories
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]); 
 
-  // Fetch categories from API
+  
   const fetchCategories = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/category");
@@ -26,13 +26,13 @@ const EditBlog = () => {
         throw new Error("Failed to fetch categories");
       }
       const data = await response.json();
-      setCategories(data.data); // Assuming 'data' contains categories
+      setCategories(data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
 
-  // Fetch subcategories from API
+  
   const fetchSubcategories = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/subcategory");
@@ -40,16 +40,16 @@ const EditBlog = () => {
         throw new Error("Failed to fetch subcategories");
       }
       const data = await response.json();
-      setSubcategories(data.data); // Assuming 'data' contains subcategories
+      setSubcategories(data.data); 
     } catch (error) {
       console.error("Error fetching subcategories:", error);
     }
   };
 
-  // Fetch the current blog data
+  
   const { data: blog, isLoading, isError, error } = useGetBlogByIdQuery(id);
 
-  // Fetch the update blog mutation
+
   const [updateBlog] = useUpdateBlogMutation();
 
   useEffect(() => {
@@ -75,11 +75,11 @@ const EditBlog = () => {
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file)); // Show preview of the uploaded image
+      setImage(URL.createObjectURL(file)); 
     }
   };
 
-  // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -136,15 +136,14 @@ const EditBlog = () => {
         </div>
       </div>
 
-      {/* Blog Information Section */}
+      
       <div className="border shadow-md p-5 w-2/3 mt-10">
         <h1 className="text-xl font-semibold mb-4">Blog Information</h1>
 
-        {/* Category and Subcategory Dropdowns */}
+        
         <div className="mb-4 flex space-x-4">
-          {/* Category Dropdown */}
           <select
-            value={category || ""} // Handle case where category might be null or undefined
+            value={category || ""} 
             onChange={(e) => setCategory(e.target.value)}
             className="w-1/2 p-2 bg-gray-700 text-white rounded-md"
           >
@@ -181,7 +180,6 @@ const EditBlog = () => {
           </select>
         </div>
 
-        {/* Blog Title */}
         <input
           type="text"
           value={title}
@@ -190,7 +188,6 @@ const EditBlog = () => {
           className="w-full p-3 mb-4 bg-gray-700 text-white placeholder-gray-400 rounded-md"
         />
 
-        {/* Blog Description */}
         <textarea
           value={desciption}
           onChange={(e) => setDesciption(e.target.value)}
@@ -200,7 +197,6 @@ const EditBlog = () => {
         />
       </div>
 
-      {/* Save Blog Button */}
       <button
         onClick={handleSubmit}
         className="mt-10 py-3 px-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400"

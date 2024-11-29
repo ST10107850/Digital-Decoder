@@ -1,53 +1,114 @@
+import React, { useEffect, useState } from "react";
 import CardComponents from "./CardComponents";
 import Pagination from "./Pagnation";
 import { useGetAllBlogsQuery } from "../blogSlice/BlogApiSlice";
 import { Blog } from "../Types/userTypes";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
-const Blogs = () => {
-  const { data: blogs, isLoading, isError, error, refetch } = useGetAllBlogsQuery();
+interface BlogsProps {
+  filters: {
+    search: string;
+    category: string;
+    subcategory: string;
+    date: Date;
+  };
+}
+
+const Blogs: React.FC<BlogsProps> = ({ filters }) => {
+  const {
+    data: blogs,
+    isLoading,
+    isError,
+    error
+  } = useGetAllBlogsQuery();
+  const [filteredBlogs, setFilteredBlogs] = useState<Blog[]>([]);
+ 
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      refetch(); 
-    }, 5000); 
+    if (blogs) {
+      let filtered = blogs;
+  
+      if (filters.search) {
+        filtered = filtered.filter(
+          (blog) =>
+            blog.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
+            blog.desciption
+              ?.toLowerCase()
+              .includes(filters.search.toLowerCase())
+        );
+      }
+  
+      if (filters.category) {
+        filtered = filtered.filter(
+          (blog) => blog.category && blog.category._id === filters.category
+        );
+      }
+  
+      if (filters.subcategory) {
+        filtered = filtered.filter(
+          (blog) =>
+            blog.subcategory && blog.subcategory._id === filters.subcategory
+        );
+      }
+  
+      if (filters.date) {
+        if (filters.date === "latest") {
+          filtered = [...filtered].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+        } else if (filters.date === "oldest") {
+          filtered = [...filtered].sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+        }
+      }
+  
+      setFilteredBlogs(filtered); 
+    }
+  }, [filters, blogs]); 
+  
 
-    return () => clearInterval(interval);
-  }, [refetch]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
+
   if (isError) {
     return <div>Error: {error?.data?.message || "Failed to fetch blogs"}</div>;
-    // console.log(Error: isError.)
   }
 
   return (
     <div className="mt-5 px-[150px]">
-      {/* Header Section */}
-      <div className="w-full bg-orange-100 flex justify-center py-4 shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800 uppercase">Blogs</h1>
+     
+      <div className="w-full bg-[#b0764d] text-white flex justify-center py-4 shadow-md">
+        <h1 className="text-2xl font-bold text-white uppercase">Blogs</h1>
       </div>
 
-      {/* Card Section */}
+     
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
-        {/* Map over the blogs and display cards */}
-        {blogs?.map((item: Blog) => (
-          <Link to={`/blog/${item._id}`} key={item._id}>
-            <CardComponents
-              images={item.images}
-              title={item.title}
-              description={item.desciption}
-            />
-          </Link>
-        ))}
+        {filteredBlogs.length > 0 ? (
+          filteredBlogs.map((item: Blog) => (
+            <Link to={`/blog/${item._id}`} key={item._id}>
+              <CardComponents
+                images={item.images}
+                title={item.title}
+                description={item.desciption}
+              />
+            </Link>
+          ))
+        ) : (
+         
+          <div className="col-span-full text-center text-gray-600 text-lg">
+            No blogs found. Please try adjusting your filters or search.
+          </div>
+        )}
       </div>
 
-      {/* Pagination */}
-      <Pagination currentPage={1} totalPages={20} onPageChange={3} />
+      
+      {filteredBlogs.length > 0 && (
+        <Pagination currentPage={1} totalPages={20} onPageChange={(page) => {}} />
+      )}
     </div>
   );
 };

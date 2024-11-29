@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-gray-300 py-8 mt-5">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* About Section */}
+      
           <div>
             <h3 className="text-lg font-bold text-white mb-4">About Us</h3>
             <p className="text-sm">
@@ -14,7 +14,7 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
+      
           <div>
             <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
@@ -53,7 +53,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Section */}
+
           <div>
             <h3 className="text-lg font-bold text-white mb-4">Contact Us</h3>
             <p className="text-sm">
@@ -65,7 +65,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Social Media Links */}
         <div className="flex justify-center space-x-4 mt-8">
           <a
             href="https://facebook.com"
@@ -114,7 +113,6 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Copyright */}
         <div className="text-center mt-8 text-sm text-gray-500">
           © {new Date().getFullYear()} Your Company. All rights reserved.
         </div>

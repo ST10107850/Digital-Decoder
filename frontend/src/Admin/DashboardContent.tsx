@@ -31,11 +31,11 @@ const DashboardContent = () => {
 
   const chartRef = useRef(null);
 
-  // Cleanup Chart.js instance when component unmounts
+  
   useEffect(() => {
     return () => {
       if (chartRef.current) {
-        chartRef.current.destroy(); // Destroy the chart instance
+        chartRef.current.destroy();
       }
     };
   }, []);
@@ -45,17 +45,13 @@ const DashboardContent = () => {
 
   return (
     <div>
-      {/* Graph Section */}
       <div className="mb-10 h-[30vh] w-[100vw]">
         <h3 className="text-xl text-center font-bold mb-4">Monthly Post Statistics</h3>
         <Chart type="bar" data={data} ref={chartRef} />
       </div>
 
-      {/* New Users Section */}
-      <Users />
-
-      {/* New Blogs Section */}
-     <AdminBlogs/>
+      <Users isDashboard={true}/>
+     <AdminBlogs isDashboard={true}/>
     </div>
   );
 };

@@ -33,11 +33,11 @@ const NavBar = () => {
     }
   };
 
-  // Function to handle "My Blogs" click and check if user is approved
+  
   const handleMyBlogsClick = () => {
     if (userInfo && userInfo.status !== "Approved") {
       alert("Your account is not approved yet. You cannot view or create blogs.");
-      return; // Prevent the navigation
+      return; 
     }
   };
 
@@ -45,14 +45,14 @@ const NavBar = () => {
     <div className="fixed top-0 left-0 w-full bg-transparent text-black">
       <nav>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          {/* Logo */}
+       
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <div className="w-[120px] h-16 rounded-md">
               <img src={logo} alt="Logo" className="object-cover w-full h-full rounded-md" />
             </div>
           </Link>
 
-          {/* Navigation Links */}
+         
           <div className="items-center justify-between hidden w-full md:flex md:w-auto">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 rounded-lg bg-transparent md:space-x-20 rtl:space-x-reverse md:flex-row">
               <li>
@@ -68,7 +68,7 @@ const NavBar = () => {
               <li>
                 <Link
                   to="/blogs"
-                  onClick={handleMyBlogsClick} // Add the handler for "My Blogs"
+                  onClick={handleMyBlogsClick}
                   className={navLinksStyles}
                 >
                   Blogs
@@ -76,13 +76,10 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-
-          {/* Buttons with Icons */}
           <div className="flex items-center space-x-3 md:space-x-6">
             {userInfo ? (
               <>
                 <div className="relative text-white">
-                  {/* Profile Dropdown Trigger */}
                   <button
                     onClick={toggleDropdown}
                     className="flex items-center space-x-2 bg-transparent hover:text-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-300"
@@ -94,8 +91,6 @@ const NavBar = () => {
                         : userInfo.email}
                     </span>
                   </button>
-
-                  {/* Dropdown Menu */}
                   {isDropdown && (
                     <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50">
                       <ul className="py-2">

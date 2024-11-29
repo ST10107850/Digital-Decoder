@@ -7,15 +7,15 @@ import {
   getUserBlog,
   updateBlog,
 } from "../controllers/blogsController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { authorizeRoles, protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createBlog);
+router.post("/", protect, authorizeRoles("author"), createBlog);
 router.get("/", getAllBlogs);
-router.get("/user", protect, getUserBlog);
-router.put("/:id", protect, updateBlog);
-router.delete("/:id", protect, deleteBlog);
+router.get("/user", protect, authorizeRoles("author", "admin"), getUserBlog);
+router.put("/:id", protect, authorizeRoles("author"), updateBlog);
+router.delete("/:id", protect, authorizeRoles("author", "admin"), deleteBlog);
 router.get("/:id", getBlogById);
 
 export default router;

@@ -33,7 +33,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const res = await login({ email, password }).unwrap(); // Using .unwrap() to handle the response
+      const res = await login({ email, password }).unwrap(); 
       dispatch(setCredentials({ ...res }));
       alert("Logged in successfully");
       navigate("/");
@@ -58,8 +58,8 @@ const LoginPage = () => {
               type="email"
               id="email"
               placeholder="Enter your email"
-              value={email} // Bound value to the email state
-              onChange={(e) => setEmail(e.target.value)} // Update state on change
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
               className="w-full p-3 mt-2 rounded-lg bg-[#b0764d] text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
@@ -73,8 +73,8 @@ const LoginPage = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Enter your password"
-                value={password} // Bound value to the password state
-                onChange={(e) => setPassword(e.target.value)} // Update state on change
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
                 className="flex-1 p-3 bg-transparent text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400 rounded-l-lg"
               />
               <div
@@ -91,7 +91,7 @@ const LoginPage = () => {
           </div>
 
           <button
-            type="submit" // Added type="submit" to trigger form submission
+            type="submit" 
             className="w-full py-3 bg-orange-500 text-white rounded-lg mt-4 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400"
           >
             Login
