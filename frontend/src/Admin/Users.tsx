@@ -1,52 +1,58 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetAllUserQuery } from "../userSlice/usersApiSlice";
-import { UserInfo } from "../Types/userTypes";  // Assuming this is the correct type
+import { useGetAllUserQuery, useUpdateUserStatusMutation } from "../userSlice/usersApiSlice";
+import { UserInfo } from "../Types/userTypes";  
 
 export const Users = () => {
   const navigate = useNavigate();
 
-  // Fetch all users using the RTK Query hook
   const { data, error, isLoading } = useGetAllUserQuery();
+  const [updateUserStatus] = useUpdateUserStatusMutation(); 
 
-  // Type the `users` state as an array of `UserInfo`
   const [users, setUsers] = useState<UserInfo[]>([]);
 
-  // Debugging log to inspect the API response
   useEffect(() => {
     console.log("API Response:", data);
   }, [data]);
 
   useEffect(() => {
     if (data?.data) {
-      setUsers(data.data); // Set users data when fetched
+      setUsers(data.data); 
     }
   }, [data]);
 
   const [showFullUsers, setShowFullUsers] = useState(false);
 
   const goToUsersPage = () => {
-    navigate("/users"); // Navigate to the users page
+    navigate("/users"); 
   };
 
-  const toggleUserStatus = (id: number, currentStatus: string) => {
-    // Update the user's status locally
-    setUsers((prev) =>
-      prev.map((user) =>
-        user._id === id
-          ? {
-              ...user,
-              status: currentStatus === "inactive" ? "Approve" : "inactive", // Toggle status
-            }
-          : user
-      )
-    );
+  const handleUpdateStatus = async (id: string, status: string) => {
+    try {
+      // Attempt to update the user status
+      const updatedUser = await updateUserStatus({ id, status }).unwrap();
+  
+      // Update the local state
+      setUsers((prev) =>
+        prev.map((user) =>
+          user._id === id
+            ? { ...user, status: updatedUser.status } 
+            : user
+        )
+      );
+  
+      alert(`User status updated to ${status}`);
+    } catch (error) {
+      // Log the error for debugging
+      console.error("Error updating user status:", error);
+  
+      // Show a user-friendly message
+      alert(error?.data?.message || "Failed to update status");
+    }
   };
+  
 
-  // Show loading message while data is being fetched
   if (isLoading) return <div>Loading...</div>;
-
-  // Show error message if there is an issue with the API call
   if (error) return <div>Error loading users: {error.message}</div>;
 
   return (
@@ -89,12 +95,16 @@ export const Users = () => {
                 <td className="p-2 border border-white">{user.status || "N/A"}</td>
                 <td className="p-2 border border-white">
                   <button
-                    onClick={() => toggleUserStatus(user._id, user.status)}
-                    className={`px-3 py-1 text-white rounded ${
-                      user.status === "Approve" ? "bg-blue-500" : "bg-green-500"
-                    }`}
+                    onClick={() => handleUpdateStatus(user._id, "Approved")}
+                    className="bg-blue-500 px-3 py-1 text-white rounded"
                   >
-                    {user.status === "Approve" ? "Approve" : "Activate"}
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleUpdateStatus(user._id, "Rejected")}
+                    className="bg-red-500 px-3 py-1 text-white rounded"
+                  >
+                    Reject
                   </button>
                 </td>
               </tr>

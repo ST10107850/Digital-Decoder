@@ -7,6 +7,7 @@ import {
   getUserProfile,
   logout,
   updateProfile,
+  updateUserStatus,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -16,6 +17,7 @@ router.post("/", createUser);
 router.get("/", getAllUsers);
 router.post("/auth", authUser);
 router.post("/logout", logout);
+router.patch('/:id/status', updateUserStatus);
 router
   .route("/profile")
   .put(protect, updateProfile)

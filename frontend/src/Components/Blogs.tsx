@@ -3,9 +3,18 @@ import Pagination from "./Pagnation";
 import { useGetAllBlogsQuery } from "../blogSlice/BlogApiSlice";
 import { Blog } from "../Types/userTypes";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Blogs = () => {
-  const { data: blogs, isLoading, isError, error } = useGetAllBlogsQuery();
+  const { data: blogs, isLoading, isError, error, refetch } = useGetAllBlogsQuery();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch(); 
+    }, 5000); 
+
+    return () => clearInterval(interval);
+  }, [refetch]);
 
   if (isLoading) {
     return <div>Loading...</div>;

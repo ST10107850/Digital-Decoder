@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
-import { FiLogOut } from "react-icons/fi"; // Logout icon
 import logo from "../assets/D.png";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Types/userTypes";
@@ -14,8 +13,6 @@ const NavBar = () => {
     "block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0";
 
   const { userInfo } = useSelector((state: RootState) => state.auth);
-
-  // console.log("userInfo in NavBar:", userInfo);
 
   const [isDropdown, setIsDropdown] = useState(false);
 
@@ -36,21 +33,22 @@ const NavBar = () => {
     }
   };
 
+  // Function to handle "My Blogs" click and check if user is approved
+  const handleMyBlogsClick = () => {
+    if (userInfo && userInfo.status !== "Approved") {
+      alert("Your account is not approved yet. You cannot view or create blogs.");
+      return; // Prevent the navigation
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full bg-transparent text-black">
       <nav>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <div className="w-[120px] h-16 rounded-md">
-              <img
-                src={logo}
-                alt="Logo"
-                className="object-cover w-full h-full rounded-md"
-              />
+              <img src={logo} alt="Logo" className="object-cover w-full h-full rounded-md" />
             </div>
           </Link>
 
@@ -68,7 +66,11 @@ const NavBar = () => {
                 </a>
               </li>
               <li>
-                <Link to="/blogs" className={navLinksStyles}>
+                <Link
+                  to="/blogs"
+                  onClick={handleMyBlogsClick} // Add the handler for "My Blogs"
+                  className={navLinksStyles}
+                >
                   Blogs
                 </Link>
               </li>

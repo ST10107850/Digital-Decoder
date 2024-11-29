@@ -43,10 +43,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateUserStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `${USERS_URL}/${id}/status`,
+        method: "PATCH",
+        body: { status }, 
+      }),
+    }),
   }),
 });
 
 export const { useLoginMutation, useRegisterUserMutation, useLogoutUserMutation,
-  useUpdateUserMutation, useRemoveAccountMutation, useGetAllUserQuery
+  useUpdateUserMutation, useRemoveAccountMutation, useGetAllUserQuery, useUpdateUserStatusMutation 
  } =
   userApiSlice;

@@ -163,3 +163,24 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
     throw new Error("Error fetching categories");
   }
 });
+
+export const updateUserStatus = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.status = status;
+    await user.save();
+
+    res.json({ message: "User status updated", status: user.status });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user status" });
+    console.log(error);
+    
+  }
+});

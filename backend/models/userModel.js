@@ -12,11 +12,13 @@ const userSchema = mongoose.Schema(
       enum: ["Pending", "Approved", "Rejected"],
       default: "Pending",
     },
-    role:{
+    role: {
       type: String,
-      enum:["admin", "author"],
-      required: true
+      enum: ["admin", "author"],
+      required: true,
+      default: "author", 
     },
+    
     email: {
       type: String,
       required: true,

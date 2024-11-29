@@ -64,28 +64,26 @@ const AddBlogPage = () => {
     if (file) {
       const reader = new FileReader();
 
-      // Read the file as base64
       reader.onloadend = () => {
         const base64Image = reader.result as string;
-        setImages(base64Image); // Set the base64 string as the image value
+        setImages(base64Image);
       };
 
-      reader.readAsDataURL(file); // Convert the file to base64
+      reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      
       const blogData = {
         images,
         category,
         subcategory,
         title,
         desciption,
-        user: { 
+        user: {
           firstName: userInfo?.firstName,
           lastName: userInfo?.lastName,
           email: userInfo?.email,
@@ -93,23 +91,28 @@ const AddBlogPage = () => {
         },
       };
 
-      const res = await createBlog(blogData).unwrap(); 
+      const res = await createBlog(blogData).unwrap();
       console.log("Response:", res);
-      
+
+      // Only update user-related fields if necessary
       if (res.data) {
-        dispatch(setCredentials({...res.data})); 
+        dispatch(
+          setCredentials({
+            ...userInfo,
+            ...res.data, 
+          })
+        );
       } else {
         throw new Error("Unexpected response format");
       }
-  
+
       alert("New blog created");
-      navigate('/my-blogs');
+      navigate("/my-blogs");
     } catch (err) {
       console.error("Error:", err);
       alert(err?.data?.message || err.error || "An error occurred");
     }
   };
-  
 
   return (
     <div className="flex flex-col space-x-6 p-5 justify-center items-center">
